@@ -13,7 +13,7 @@ class Kustomize < Formula
     ENV["GOARCH"] = 'amd64'
     ENV["CGO_ENABLED"] = '1'
 
-    go_build_ldflags="-s -w -X github.com/kubernetes-sigs/kustomize/pkg/commands.kustomizeVersion=1.0.5"
+    go_build_ldflags="-X github.com/kubernetes-sigs/kustomize/pkg/commands.kustomizeVersion=1.0.5"
 
     (buildpath/"src/github.com/kubernetes-sigs/kustomize/").install buildpath.children
     cd "src/github.com/kubernetes-sigs/kustomize/" do
