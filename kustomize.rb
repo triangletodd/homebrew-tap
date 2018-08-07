@@ -13,11 +13,11 @@ class Kustomize < Formula
     ENV["GOARCH"] = 'amd64'
     ENV["CGO_ENABLED"] = '1'
 
-    GO_BUILD_LDFLAGS="-s -w -X github.com/kubernetes-sigs/kustomize/pkg/commands.kustomizeVersion=1.0.5"
+    go_build_ldflags="-s -w -X github.com/kubernetes-sigs/kustomize/pkg/commands.kustomizeVersion=1.0.5"
 
     (buildpath/"src/github.com/kubernetes-sigs/kustomize/").install buildpath.children
     cd "src/github.com/kubernetes-sigs/kustomize/" do
-      system "go build -v -o kustomize -ldflags ${GO_BUILD_LDFLAGS}"
+      system "go build -v -o kustomize -ldflags #{go_build_ldflags}"
       bin.install "kustomize"
       pkgshare.install Dir["examples/*"]
       prefix.install_metafiles
