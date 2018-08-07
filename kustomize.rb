@@ -1,3 +1,5 @@
+require 'time'
+
 class Kustomize < Formula
   desc "Customization of kubernetes YAML configurations"
   homepage "https://github.com/kubernetes-sigs/kustomize"
@@ -8,12 +10,21 @@ class Kustomize < Formula
   depends_on "go" => :build
 
   def install
+    buildDate = Time.now.utc.iso8601
+    kustomizeVersion = '1.0.5'
+
     ENV["GOPATH"] = buildpath
     ENV["GOOS"] = 'darwin'
     ENV["GOARCH"] = 'amd64'
     ENV["CGO_ENABLED"] = '1'
 
-    go_build_ldflags="-X github.com/kubernetes-sigs/kustomize/pkg/commands.kustomizeVersion=1.0.5"
+    go_build_ldflags = [
+      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.kustomizeVersion=#{kustomizeVersion}",
+      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.goos=#{ENV['GOOS']}",
+      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.goarch=#{ENV['GOARCH']}",
+      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.gitCommit=#{kustomizeVersion}",
+      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.buildDate=#{buildDate}"
+    ].join(' ')
 
     (buildpath/"src/github.com/kubernetes-sigs/kustomize/").install buildpath.children
     cd "src/github.com/kubernetes-sigs/kustomize/" do
