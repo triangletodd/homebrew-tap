@@ -11,7 +11,7 @@ class Kustomize < Formula
 
   def install
     buildDate = Time.now.utc.iso8601
-    kustomizeVersion = '1.0.5'
+    kustomizeVersion = version
 
     ENV["GOPATH"] = buildpath
     ENV["GOOS"] = 'darwin'
