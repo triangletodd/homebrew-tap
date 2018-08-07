@@ -11,7 +11,6 @@ class Kustomize < Formula
 
   def install
     buildDate = Time.now.utc.iso8601
-    kustomizeVersion = version
 
     ENV["GOPATH"] = buildpath
     ENV["GOOS"] = 'darwin'
@@ -19,10 +18,10 @@ class Kustomize < Formula
     ENV["CGO_ENABLED"] = '1'
 
     go_build_ldflags = [
-      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.kustomizeVersion=#{kustomizeVersion}",
+      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.kustomizeVersion=#{version}",
       "-X github.com/kubernetes-sigs/kustomize/pkg/commands.goos=#{ENV['GOOS']}",
       "-X github.com/kubernetes-sigs/kustomize/pkg/commands.goarch=#{ENV['GOARCH']}",
-      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.gitCommit=#{kustomizeVersion}",
+      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.gitCommit=#{version}",
       "-X github.com/kubernetes-sigs/kustomize/pkg/commands.buildDate=#{buildDate}"
     ].join(' ')
 
