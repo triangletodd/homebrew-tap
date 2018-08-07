@@ -17,7 +17,7 @@ class Kustomize < Formula
 
     (buildpath/"src/github.com/kubernetes-sigs/kustomize/").install buildpath.children
     cd "src/github.com/kubernetes-sigs/kustomize/" do
-      system "go build -v -o kustomize -ldflags #{go_build_ldflags}"
+      system "go build -v -o kustomize -ldflags \"#{go_build_ldflags}\""
       bin.install "kustomize"
       pkgshare.install Dir["examples/*"]
       prefix.install_metafiles
