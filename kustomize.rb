@@ -11,13 +11,11 @@ class Kustomize < Formula
     ENV["GOPATH"] = buildpath
     ENV["GOOS"] = 'darwin'
     ENV["GOARCH"] = 'amd64'
-    ENV["CGO_ENABLED"] = '0'
+    ENV["CGO_ENABLED"] = '1'
     (buildpath/"src/github.com/kubernetes-sigs/kustomize/").install buildpath.children
     cd "src/github.com/kubernetes-sigs/kustomize/" do
       system "go", "build", "-v", "-o", "kustomize",
-        "-X", "github.com/kubernetes-sigs/kustomize/pkg/commands.kustomizeVersion={{.Version}}",
-        "-X", "github.com/kubernetes-sigs/kustomize/pkg/commands.gitCommit={{.Commit}}",
-        "-X", "github.com/kubernetes-sigs/kustomize/pkg/commands.buildDate={{.Date}}"
+        "-X", "github.com/kubernetes-sigs/kustomize/pkg/commands.kustomizeVersion=1.0.5"
       bin.install "kustomize"
       pkgshare.install Dir["examples/*"]
       prefix.install_metafiles
