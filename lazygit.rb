@@ -24,7 +24,7 @@ class Lazygit < Formula
     go_build_ldflags = [
       "-X github.com/jesseduffield/lazygit/main.buildDate=#{build_date}",
       "-X github.com/jesseduffield/lazygit/main.version=0.1.55",
-      "-X github.com/jesseduffield/lazygit/main.commit=#{commit_hash},
+      "-X github.com/jesseduffield/lazygit/main.commit=#{commit_hash}",
     ].join(' ')
 
     (buildpath/"src/github.com/jesseduffield/lazygit/").install buildpath.children
