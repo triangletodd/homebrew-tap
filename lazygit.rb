@@ -1,3 +1,5 @@
+require 'time'
+
 class Lazygit < Formula
   desc "Customization of kubernetes YAML configurations"
   homepage "https://github.com/jesseduffield/lazygit/"
@@ -8,15 +10,26 @@ class Lazygit < Formula
   depends_on "go" => :build
 
   def install
+    build_date = Time.now.utc.iso8601
 
     ENV["GOPATH"] = buildpath
     ENV["GOOS"] = 'darwin'
     ENV["GOARCH"] = 'amd64'
     ENV["CGO_ENABLED"] = '1'
 
+    cd "src/github.com/jesseduffield/lazygit/" do
+      commit_hash=`git rev-parse HEAD`
+    end
+
+    go_build_ldflags = [
+      "-X github.com/jesseduffield/lazygit/main.buildDate=#{build_date}",
+      "-X github.com/jesseduffield/lazygit/main.version=0.1.55",
+      "-X github.com/jesseduffield/lazygit/main.commit=#{commit_hash},
+    ].join(' ')
+
     (buildpath/"src/github.com/jesseduffield/lazygit/").install buildpath.children
     cd "src/github.com/jesseduffield/lazygit/" do
-      system "go build -v -o lazygit"
+      system "go build -v -o lazygit -ldflags \"#{go_build_ldflags}\""
       bin.install "lazygit"
       prefix.install_metafiles
     end

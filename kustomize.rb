@@ -10,7 +10,7 @@ class Kustomize < Formula
   depends_on "go" => :build
 
   def install
-    buildDate = Time.now.utc.iso8601
+    build_date = Time.now.utc.iso8601
 
     ENV["GOPATH"] = buildpath
     ENV["GOOS"] = 'darwin'
@@ -22,7 +22,7 @@ class Kustomize < Formula
       "-X github.com/kubernetes-sigs/kustomize/pkg/commands.goos=#{ENV['GOOS']}",
       "-X github.com/kubernetes-sigs/kustomize/pkg/commands.goarch=#{ENV['GOARCH']}",
       "-X github.com/kubernetes-sigs/kustomize/pkg/commands.gitCommit=#{version}",
-      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.buildDate=#{buildDate}"
+      "-X github.com/kubernetes-sigs/kustomize/pkg/commands.buildDate=#{build_date}"
     ].join(' ')
 
     (buildpath/"src/github.com/kubernetes-sigs/kustomize/").install buildpath.children
